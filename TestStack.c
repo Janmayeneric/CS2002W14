@@ -79,8 +79,9 @@ int newStackSizeZero() {
 int pushOneElement(){
 	int* PNumber1 = malloc(sizeof(int));
 	*PNumber1 = 1;
-	assert(Stack_pop(stack,PNumber1) == true);
+	assert(Stack_push(stack,PNumber1) == true);
 	assert(Stack_size(stack) == 1);
+	return TEST_SUCCESS;
 }
 
 /* 
@@ -89,8 +90,9 @@ int pushOneElement(){
  */
 int pushNullElement(){
 	void* nullElement = NULL;
-	assert(Stack_pop(stack,nullElement) == false);
+	assert(Stack_push(stack,nullElement) == false);
 	assert(Stack_size(stack) == 0);
+	return TEST_SUCCESS;
 }
 
 /*
@@ -99,13 +101,16 @@ int pushNullElement(){
  * checking if stack has already keeping maximum size of element
  */
 int pushTooMuch(){
+	for(int i=0;i<MAX_STACK_SIZE;i++){
+		int* PNumber1 = malloc(sizeof(int));
+		*PNumber1 = 1;
+		assert(Stack_push(stack,PNumber1) == true);
+	}
 	int* PNumber1 = malloc(sizeof(int));
 	*PNumber1 = 1;
-	for(int i=0;i<MAX_STACK_SIZE;i++){
-		assert(Stack_pop(stack,PNumber1) == true);
-	}
-	assert(Stack_pop(stack,PNumber1) == false);
-	assert(Stack_size(stack) == MAX_STACK_SIZE);	
+	assert(Stack_push(stack,PNumber1) == false);
+	assert(Stack_size(stack) == MAX_STACK_SIZE);
+	return TEST_SUCCESS;	
 }
 
 

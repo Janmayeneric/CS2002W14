@@ -11,7 +11,7 @@ STACKOBJ = ListNode.o Stack.o
 all: TestStack TestBlockingStack
 
 TestStack: TestStack.o Stack.o ListNode.o
-	$(CC) $(LFLAGS) TestStack.o ${STACKOBJ} -o TestStack $(LIBFLAGS)
+	$(CC) $(LFLAGS) TestStack.o ${STACKOBJ} -o TestStack $(LIBFLAGS) -fsanitize=address
 
 TestBlockingStack: TestBlockingStack.o BlockingStack.o Stack.o
 	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o Stack.o -o TestBlockingStack $(LIBFLAGS)
