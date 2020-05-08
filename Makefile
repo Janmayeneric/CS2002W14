@@ -10,20 +10,20 @@ STACKOBJ = ListNode.o Stack.o
 
 all: TestStack TestBlockingStack
 
-TestStack: TestStack.o Stack.o 
+TestStack: TestStack.o Stack.o ListNode.o
 	$(CC) $(LFLAGS) TestStack.o ${STACKOBJ} -o TestStack $(LIBFLAGS)
 
 TestBlockingStack: TestBlockingStack.o BlockingStack.o Stack.o
 	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o Stack.o -o TestBlockingStack $(LIBFLAGS)
 
 ListNode.o: ListNode.c ListNode.h
-	$(CC) $(CFLAGS) ListNode.c
+	$(CC) $(CFLAGS) ListNode.c -o ListNode.o
 
 Stack.o: Stack.c Stack.h
-	$(CC) $(CFLAGS) Stack.c
+	$(CC) $(CFLAGS) Stack.c -o Stack.o
 
 TestStack.o: TestStack.c myassert.h
-	$(CC) $(CFLAGS) TestStack.c
+	$(CC) $(CFLAGS) TestStack.c -o TestStack.o
 
 BlockingStack.o: BlockingStack.c BlockingStack.h
 	$(CC) $(CFLAGS) BlockingStack.c
