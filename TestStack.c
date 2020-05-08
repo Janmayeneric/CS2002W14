@@ -78,7 +78,6 @@ int newStackSizeZero() {
  */
 int pushOneElement(){
 	int* PNumber1 = malloc(sizeof(int));
-	*PNumber1 = 1;
 	assert(Stack_push(stack,PNumber1) == true);
 	assert(Stack_size(stack) == 1);
 	return TEST_SUCCESS;
@@ -103,15 +102,85 @@ int pushNullElement(){
 int pushTooMuch(){
 	for(int i=0;i<MAX_STACK_SIZE;i++){
 		int* PNumber1 = malloc(sizeof(int));
-		*PNumber1 = 1;
 		assert(Stack_push(stack,PNumber1) == true);
 	}
 	int* PNumber1 = malloc(sizeof(int));
-	*PNumber1 = 1;
 	assert(Stack_push(stack,PNumber1) == false);
 	assert(Stack_size(stack) == MAX_STACK_SIZE);
 	return TEST_SUCCESS;	
 }
+
+/*
+ * pop the element that pushed into the stack
+ * check if they are identical by comparing their pointer
+ */
+int popOneElement(){
+	int* PNumber1 = malloc(sizeof(int));
+	*PNumber1 = 1;
+	Stack_push(stack,PNumber1);
+	void* PElement = Stack_pop(stack);
+	assert(PElement == PNumber1);
+	assert((int*)PElement == (int*)PNumber1);
+	assert(Stack_size(stack)==0);
+	return TEST_SUCCESS;
+}
+
+int popEmptyStack(){
+	assert(Stack_pop(stack) == NULL);
+	return TEST_SUCCESS;
+}
+
+/*
+ * check if number of pop action over the maximum size
+ * return null element
+ */
+int popTooMuch(){
+	int* PNumber1 = malloc(sizeof(int));
+	Stack_push(stack,PNumber1);
+	Stack_pop(stack);
+	assert(Stack_pop(stack) == NULL);
+	return TEST_SUCCESS;
+}
+
+/*
+ * check the functionality of poping multiple elements
+ * stack follows the rule of first in last out
+ * pop function should only take the last element pushed into stack
+ * and the size of stack need to be reduced every time poping
+ */
+int popMultipleElements(){
+	int* PNumber1 = malloc(sizeof(int));
+	int* PNumber2 = malloc(sizeof(int));
+	int* PNumber3 = malloc(sizeof(int));
+	Stack_push(stack,PNumber1);
+	Stack_push(stack,PNumber2);
+	Stack_push(stack,PNumber3);
+	assert(Stack_pop(stack) == PNumber3);
+	assert(Stack_size(stack)== 2);
+	assert(Stack_pop(stack) == PNumber2);
+	assert(Stack_size(stack)== 1);
+	assert(Stack_pop(stack) == PNumber1);
+	assert(Stack_size(stack)== 0);
+	return TEST_SUCCESS;
+}
+
+/*
+ * check the function of clearing stack
+ * every list node need to be cleared
+ * size is cleared to zero
+ * nothing can be poped out
+ */
+int stackisCleared(){
+	for(int i=0;i<MAX_STACK_SIZE;i++){
+		int* PNumber1 = malloc(sizeof(int));
+		assert(Stack_push(stack,PNumber1) == true);
+	}
+	Stack_clear(stack);
+	assert(Stack_size(stack)==0);
+	assert(Stack_pop(stack)==NULL);
+	return TEST_SUCCESS;
+}
+
 
 
 int main() {
@@ -120,7 +189,10 @@ int main() {
 	runTest(pushOneElement);
 	runTest(pushNullElement);
 	runTest(pushTooMuch);
-
+	runTest(popOneElement);
+	runTest(popEmptyStack);
+	runTest(popTooMuch);
+	runTest(popMultipleElements);
 	printf("Stack Tests complete: %d / %d tests successful.\n----------------\n", success_count, total_count);
 
 }
