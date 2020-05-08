@@ -56,22 +56,7 @@ void runTest(int (*testFunction)()) {
 }
 
 
-/*
- * Two sample user-defined tests included below.
- * You will have to write many more tests.
- *
- * Each test function should return TEST_SUCCESS at the end.
- * Test functions can contain more than one assertion.
- *
- * If any assertion fails, the function name and line number
- * will be printed and the test will return a failure value.
- *
- * You will have to call runTest on your test functions in main below.
- */
 
-/*
- * Checks that the Stack constructor returns a non-NULL pointer.
- */
 int newStackIsNotNull() {
 	assert(stack != NULL);
 	return TEST_SUCCESS;
@@ -85,26 +70,51 @@ int newStackSizeZero() {
 	return TEST_SUCCESS;
 }
 
+/*
+ * check the functionality when pushing one element
+ * check if the element is poped successfully by
+ * checking the return flag of pop function
+ *          the size of the stack in incremented
+ */
+int pushOneElement(){
+	int* PNumber1 = malloc(sizeof(int));
+	*PNumber1 = 1;
+	assert(Stack_pop(stack,PNumber1) == true);
+	assert(Stack_size(stack) == 1);
+}
+
+/* 
+ * false flag need to be returned if null element poped
+ * nothing is inserted so size of stack is still zero
+ */
+int pushNullElement(){
+	void* nullElement = NULL;
+	assert(Stack_pop(stack,nullElement) == false);
+	assert(Stack_size(stack) == 0);
+}
 
 /*
- * Write more of your own test functions below (such as pushOneElement, pushAndPopOneElement, ...)
- * to help you verify correctness of your Stack
+ * push multiple elements into stack
+ * the maximum size flag return true until its reaching maximum size
+ * checking if stack has already keeping maximum size of element
  */
+int pushTooMuch(){
+	int* PNumber1 = malloc(sizeof(int));
+	*PNumber1 = 1;
+	for(int i=0;i<MAX_STACK_SIZE;i++){
+		assert(Stack_pop(stack,PNumber1) == true);
+	}
+	assert(Stack_pop(stack,PNumber1) == false);
+	assert(Stack_size(stack) == MAX_STACK_SIZE);	
+}
 
-/*
- * Main function for the Stack tests which will run each user-defined test in turn.
- */
 
 int main() {
 	runTest(newStackIsNotNull);
 	runTest(newStackSizeZero);
-	/*
-	 * you will have to call runTest on all your test functions above, such as
-	 *
-	 * runTest(pushOneElement);
-	 * runTest(pushAndPopOneElement);
-	 *
-	 */
+	runTest(pushOneElement);
+	runTest(pushNullElement);
+	runTest(pushTooMuch);
 
 	printf("Stack Tests complete: %d / %d tests successful.\n----------------\n", success_count, total_count);
 
