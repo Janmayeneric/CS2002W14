@@ -169,6 +169,7 @@ int popMultipleElements(){
  * every list node need to be cleared
  * size is cleared to zero
  * nothing can be poped out
+ * and it can be used after clearing
  */
 int stackisCleared(){
 	for(int i=0;i<MAX_STACK_SIZE;i++){
@@ -176,8 +177,7 @@ int stackisCleared(){
 		assert(Stack_push(stack,PNumber1) == true);
 	}
 	Stack_clear(stack);
-	assert(Stack_size(stack)==0);
-	assert(Stack_pop(stack)==NULL);
+	assert(Stack_isEmpty(stack)==true);
 	return TEST_SUCCESS;
 }
 
@@ -193,6 +193,7 @@ int main() {
 	runTest(popEmptyStack);
 	runTest(popTooMuch);
 	runTest(popMultipleElements);
+	runTest(stackisCleared);
 	printf("Stack Tests complete: %d / %d tests successful.\n----------------\n", success_count, total_count);
 
 }

@@ -52,6 +52,7 @@ void* Stack_pop(Stack* this) {
 	this->top = this->top->next;
 	void *popedElement = popedNode->element;
 	ListNode_destroy(popedNode);
+	this->current_size--;
 	return popedElement;
 }
 
