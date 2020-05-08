@@ -6,14 +6,18 @@ CFLAGS = $(DFLAG) $(GFLAGS) -c
 LFLAGS = $(DFLAG) $(GFLAGS)
 LIBFLAGS = -pthread
 
+STACKOBJ = ListNode.o Stack.o 
+
 all: TestStack TestBlockingStack
 
 TestStack: TestStack.o Stack.o 
-	$(CC) $(LFLAGS) TestStack.o Stack.o -o TestStack $(LIBFLAGS)
+	$(CC) $(LFLAGS) TestStack.o ${STACKOBJ} -o TestStack $(LIBFLAGS)
 
 TestBlockingStack: TestBlockingStack.o BlockingStack.o Stack.o
 	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o Stack.o -o TestBlockingStack $(LIBFLAGS)
 
+ListNode.o: ListNode.c ListNode.h
+	$(CC) $(CFLAGS) ListNode.c
 
 Stack.o: Stack.c Stack.h
 	$(CC) $(CFLAGS) Stack.c
