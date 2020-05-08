@@ -8,12 +8,16 @@
 #ifndef STACK_H_
 #define STACK_H_
 
+#include <stddef.h>
 #include <stdbool.h>
+#include "ListNode.h"
 
 typedef struct Stack Stack;
 
-/* You should define your struct Stack here */
 struct Stack {
+    ListNode *top;
+    int max_size;
+    int current_size;
 };
 
 
