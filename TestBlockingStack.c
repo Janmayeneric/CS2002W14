@@ -93,6 +93,9 @@ int pushAndPopOneElement(){
  * push excess elements into stack
  * pop the elements then
  * all element will be pushed out including 
+ * number of push and pop exceed the maximum size of the stack
+ * then testing if all push and pop element is carried out 
+ * more detail will be explained inside report
  */
 int pushBusyWaiting(){
 	ListNode* pop_list;
@@ -108,8 +111,9 @@ int pushBusyWaiting(){
 		pop_list = BlockingStack_pop(stack);
 	}
 	
-	pthread_join(stack->pop_thread,NULL);
+	
 	pthread_join(stack->push_thread,NULL);
+	pthread_join(stack->pop_thread,NULL);
 
 	for(int i=0;i<num_push;i++){
 		pop_list = pop_list->next;
