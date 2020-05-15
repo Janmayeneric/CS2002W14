@@ -6,15 +6,16 @@ CFLAGS = $(DFLAG) $(GFLAGS) -c
 LFLAGS = $(DFLAG) $(GFLAGS)
 LIBFLAGS = -pthread
 
-STACKOBJ = ListNode.o Stack.o 
-
 all: TestStack TestBlockingStack
 
-TestStack: TestStack.o Stack.o ListNode.o
-	$(CC) $(LFLAGS) TestStack.o ${STACKOBJ} -o TestStack $(LIBFLAGS) -fsanitize=address
+test: test.o
+	$(CC) $(LFLAGS) test.o -o test $(LIBFLAGS)
 
-TestBlockingStack: TestBlockingStack.o BlockingStack.o Stack.o
-	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o Stack.o -o TestBlockingStack $(LIBFLAGS)
+TestStack: TestStack.o Stack.o ListNode.o
+	$(CC) $(LFLAGS) TestStack.o ListNode.o Stack.o -o TestStack $(LIBFLAGS) -fsanitize=address
+
+TestBlockingStack: TestBlockingStack.o BlockingStack.o ListNode.o
+	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o ListNode.o -o TestBlockingStack $(LIBFLAGS) -fsanitize=address
 
 ListNode.o: ListNode.c ListNode.h
 	$(CC) $(CFLAGS) ListNode.c -o ListNode.o
@@ -31,5 +32,8 @@ BlockingStack.o: BlockingStack.c BlockingStack.h
 TestBlockingStack.o: TestBlockingStack.c myassert.h
 	$(CC) $(CFLAGS) TestBlockingStack.c
 
+test.o: test.c
+	$(CC) $(CFLAGS) test.c -o test.o
+
 clean:
-	$(RM) TestStack TestBlockingStack *.o
+	$(RM) TestStack test TestBlockingStack *.o

@@ -57,20 +57,6 @@ void runTest(int (*testFunction)()) {
 
 
 /*
- * Two sample user-defined tests included below.
- * You will have to write many more tests.
- *
- * Each test function should return TEST_SUCCESS at the end.
- * Test functions can contain more than one assertion.
- *
- * If any assertion fails, the function name and line number
- * will be printed and the test will return a failure value.
- *
- * You will have to call runTest on your test functions in main below.
- */
-
-
-/*
  * Checks that the BlockingStack constructor returns a non-NULL pointer.
  */
 int newStackIsNotNull() {
@@ -86,27 +72,57 @@ int newStackSizeZero() {
 	return TEST_SUCCESS;
 }
 
-/*
- * Write more of your own test functions below (such as pushOneElement, pushAndPopOneElement, ...)
- * to help you verify correctness of your BlockingStack
+/**
+ * Lots of functionality of Blocking stack is simliar to stack
+ * so only carry out some essential testing
  */
+int pushAndPopOneElement(){
+	int* PNumber = malloc(sizeof(int));
+	BlockingStack_push(stack,PNumber);
+	ListNode* pop_list = BlockingStack_pop(stack);
 
+	pthread_join(stack->push_thread,NULL);
+	pthread_join(stack->pop_thread,NULL);
 
-/*
- * Main function for the BlockingStack tests which will run each user-defined test in turn.
+	pop_list = pop_list->next;
+	assert(PNumber = pop_list->element);
+	return TEST_SUCCESS;
+}
+
+/**
+ * push excess elements into stack
+ * pop the elements then
+ * all element will be pushed out including 
  */
+int pushBusyWaiting(){
+	ListNode* pop_list;
+	int num_push = MAX_STACK_SIZE * 2;
+	int** array_PNumber[num_push];
+
+	for(int i=0;i<num_push;i++){
+		int* PNumber = malloc(sizeof(int));
+		array_PNumber[i] = PNumber;
+		BlockingStack_push(stack,PNumber);
+	}
+	for(int i=0;i<num_push;i++){
+		pop_list = BlockingStack_pop(stack);
+	}
+	
+	pthread_join(stack->pop_thread,NULL);
+	pthread_join(stack->push_thread,NULL);
+
+	for(int i=0;i<num_push;i++){
+		pop_list = pop_list->next;
+		assert(pop_list->element = array_PNumber[i]);
+	}
+	return TEST_SUCCESS;
+}
 
 int main() {
 	runTest(newStackIsNotNull);
 	runTest(newStackSizeZero);
-    /*
-     * you will have to call runTest on all your test functions above, such as
-     *
-     * runTest(pushOneElement);
-     * runTest(pushAndPopOneElement);
-     *
-     */
-
+    runTest(pushAndPopOneElement);
+	runTest(pushBusyWaiting);
 	printf("\nBlockingStack Tests complete: %d / %d tests successful.\n----------------\n", success_count, total_count);
 
 }

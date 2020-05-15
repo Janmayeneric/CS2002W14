@@ -9,11 +9,28 @@
 #define BLOCKING_STACK_H_
 
 #include <stdbool.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include "ListNode.h"
+#include <errno.h>
+#include <stddef.h>
+#include <stdio.h>
 
 typedef struct BlockingStack BlockingStack;
 
-/* You should define your struct BlockingStack here */
+
+/**
+ *  Basically blocking stack is inherited from the stack
+ *  some pthread is declared for multi-thread operation
+ *  another listnode is declared, it is queue to store the 
+ *  poped element buffer
+ */
 struct BlockingStack {
+    ListNode *top;
+    ListNode *pop_queue;
+    int current_size;
+    int max_size;
+    pthread_t pop_thread, push_thread;
 };
 
 /*
