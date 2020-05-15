@@ -57,7 +57,7 @@ static void semaphores_startup(int max_size){
 static void *pfunc_push(void** args){
 
 	sem_wait(push_avaliable);
-	
+
 
 	pthread_mutex_lock(&assign_mutex);
 	BlockingStack* stack = (BlockingStack*)*(args);
