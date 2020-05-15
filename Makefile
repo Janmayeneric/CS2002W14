@@ -8,14 +8,11 @@ LIBFLAGS = -pthread
 
 all: TestStack TestBlockingStack
 
-test: test.o
-	$(CC) $(LFLAGS) test.o -o test $(LIBFLAGS)
-
 TestStack: TestStack.o Stack.o ListNode.o
-	$(CC) $(LFLAGS) TestStack.o ListNode.o Stack.o -o TestStack $(LIBFLAGS) -fsanitize=address
+	$(CC) $(LFLAGS) TestStack.o ListNode.o Stack.o -o TestStack $(LIBFLAGS)
 
 TestBlockingStack: TestBlockingStack.o BlockingStack.o ListNode.o
-	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o ListNode.o -o TestBlockingStack $(LIBFLAGS) -fsanitize=address
+	$(CC) $(LFLAGS) TestBlockingStack.o BlockingStack.o ListNode.o -o TestBlockingStack $(LIBFLAGS)
 
 ListNode.o: ListNode.c ListNode.h
 	$(CC) $(CFLAGS) ListNode.c -o ListNode.o
@@ -32,8 +29,5 @@ BlockingStack.o: BlockingStack.c BlockingStack.h
 TestBlockingStack.o: TestBlockingStack.c myassert.h
 	$(CC) $(CFLAGS) TestBlockingStack.c
 
-test.o: test.c
-	$(CC) $(CFLAGS) test.c -o test.o
-
 clean:
-	$(RM) TestStack test TestBlockingStack *.o
+	$(RM) TestStack TestBlockingStack *.o
